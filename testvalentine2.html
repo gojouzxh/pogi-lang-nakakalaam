@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gawa ni mark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #ff69b4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 45px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.3);
+            width: 90%;
+            max-width: 500px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .question {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .animated-border-decoration {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .animated-border-decoration img {
+            height: 140px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.5);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #87ceeb, #4da6ff);
+            color: white;
+            box-shadow: 0 5px 15px rgba(77, 166, 255, 0.3);
+        }
+
+        .no-btn:hover {
+            transform: scale(0.95);
+            box-shadow: 0 8px 20px rgba(77, 166, 255, 0.5);
+        }
+
+        /* Success state */
+        .success-container {
+            display: none;
+            animation: slideIn 0.6s ease-out;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 45px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.3);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .success-container.show {
+            display: block;
+        }
+
+        .success-emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: gentle-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gentle-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 105, 180, 0.2);
+        }
+
+        .success-header h1 {
+            color: #ff1493;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .success-text {
+            font-size: 1.8rem;
+            color: #ff1493;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        /* Bears decoration */
+        .heart-rain {
+            position: fixed;
+            top: -100px;
+            width: 30px;
+            height: 30px;
+            font-size: 2rem;
+            animation: fall 3s linear forwards;
+            pointer-events: none;
+            z-index: 8;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .decorations-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .date-message {
+            font-size: 1.4rem;
+            color: #ff1493;
+            margin-top: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff1493;
+            pointer-events: none;
+            z-index: 9;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) translateX(100px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 9;
+            animation: sparkle-fade 2s ease-out forwards;
+        }
+
+        @keyframes sparkle-fade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-100px);
+            }
+        }
+
+        /* GIF Graphics Styles */
+        .decoration-gif {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .bouquet-gif, .chocolate-gif, .gift-gif {
+            animation: gentle-bounce 2s ease-in-out infinite;
+        }
+
+        .bouquet-gif {
+            animation-delay: 0s;
+        }
+
+        .chocolate-gif {
+            animation-delay: 0.3s;
+        }
+
+        .gift-gif {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes gentle-bounce {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+        }
+
+        /* Envelope Styles */
+        .envelope-section-compact {
+            margin-top: 30px;
+            padding: 25px 0;
+            border-top: 1px solid rgba(255, 105, 180, 0.15);
+            border-bottom: 1px solid rgba(255, 105, 180, 0.15);
+        }
+
+        .envelope-title {
+            font-size: 1.1rem;
+            color: #d4526e;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+            font-family: 'Georgia', serif;
+        }
+
+        .envelopes-container-compact {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .envelope-single {
+            width: 85px;
+            height: 65px;
+            cursor: pointer;
+            perspective: 1000px;
+            transition: all 0.3s ease;
+        }
+
+        .envelope-single:hover {
+            transform: scale(1.1) translateY(-4px);
+            filter: drop-shadow(0 6px 12px rgba(255, 20, 147, 0.2));
+        }
+
+        .envelope-single .envelope-front {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffd6e8 0%, #ffe4f0 100%);
+            border: 2px solid #d4526e;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .envelope-single:hover .envelope-front {
+            border-color: #ff1493;
+            box-shadow: 0 6px 14px rgba(255, 20, 147, 0.18);
+        }
+
+        .envelope-single .envelope-front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, #f9bfd4, rgba(255, 192, 203, 0.3));
+            border-bottom: 1px solid rgba(212, 82, 110, 0.3);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .envelope-single .heart {
+            font-size: 1.8rem;
+            z-index: 2;
+            animation: heart-pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes heart-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        /* Custom Alert Modal Styles */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .custom-alert-modal {
+            background: white;
+            padding: 50px 45px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            border: 3px solid #d4526e;
+            animation: slideUp 0.4s ease;
+        }
+
+        .custom-alert-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: scaleIn 0.4s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .custom-alert-text {
+            font-size: 1.8rem;
+            color: #555;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+            line-height: 1.8;
+            font-family: 'Georgia', serif;
+        }
+
+        .custom-alert-button {
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ffc0d9, #ffb6d9);
+            color: #d4526e;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #d4526e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .custom-alert-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.25);
+            background: linear-gradient(135deg, #ffb6d9, #ffa8d1);
+        }
+
+        .custom-alert-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal Styles */
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message-modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .message-modal-content {
+            background: white;
+            padding: 45px 35px;
+            border-radius: 12px;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+            position: relative;
+            animation: slideUp 0.3s ease;
+            border: 2px solid rgba(255, 105, 180, 0.15);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #d4526e;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.4);
+            color: #ff1493;
+        }
+
+        .message-envelope-header {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .message-text {
+            font-size: 1.25rem;
+            color: #555;
+            font-weight: 500;
+            margin: 25px 0;
+            line-height: 1.8;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+        }
+
+        .close-message-btn {
+            padding: 12px 35px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ffc0d9, #ffb6d9);
+            color: #d4526e;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid #d4526e;
+        }
+
+        .close-message-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(255, 20, 147, 0.2);
+            background: linear-gradient(135deg, #ffb6d9, #ffa8d1);
+        }
+
+        .love-trail {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 8;
+            animation: trail-fade 2s ease-out forwards;
+        }
+
+        @keyframes trail-fade {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+
+        /* Animated border */
+        .success-border {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 50%, #ff1493 100%);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        @keyframes none {
+            0%, 100% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="container" id="mainContainer">
+        <h1>will you be my valentine?</h1>
+        
+        <div class="animated-border-decoration">
+            <img src="https://media.tenor.com/mxg1RwQmzQQAAAAm/peach-goma-love-pat-head-cheek.webp" />
+        </div>
+        
+        <div class="button-container" id="buttonContainer">
+            <button class="yes-btn" id="yesBtn">yes</button>
+            <button class="no-btn" id="noBtn">no</button>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-container" id="successContainer">
+        <div class="success-border"></div>
+        
+        <div class="animated-border-decoration">
+            <img src="https://i.pinimg.com/736x/1a/a3/07/1aa3074b4dde9e375c71b09f8cf1ae4f.jpg" alt="Decoration" />
+        </div>
+        
+        <!-- 5 Envelope Messages -->
+        <div class="envelope-section-compact">
+            <p class="envelope-title">please choose 2 carefully :> </p>
+            <div class="envelopes-container-compact">
+                <div class="envelope-single" data-message="picnic Date?">
+                    <div class="envelope-front">
+                        <div class="heart">?</div>
+                    </div>
+                </div>
+                <div class="envelope-single" data-message="beach date?">
+                    <div class="envelope-front">
+                        <div class="heart">?</div>
+                    </div>
+                </div>
+                <div class="envelope-single" data-message="bahay nalang tapos lambingan? AHAHAHAH">
+                    <div class="envelope-front">
+                        <div class="heart">?</div>
+                    </div>
+                </div>
+                <div class="envelope-single" data-message="Flowers and chocolate? saka ballon? AHAHAH">
+                    <div class="envelope-front">
+                        <div class="heart">?</div>
+                    </div>
+                </div>
+                <div class="envelope-single" data-message="mall date?">
+                    <div class="envelope-front">
+                        <div class="heart">?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="message-modal" id="messageModal">
+        <div class="message-modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="animated-border-decoration">
+            <img src="https://i.pinimg.com/1200x/33/bd/88/33bd88933da6c671a13f42f186c87b98.jpg" />
+        </div>	
+            <p class="message-text" id="messageText"></p>
+            <button class="close-message-btn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successContainer = document.getElementById('successContainer');
+        const heartBg = document.getElementById('heartBg');
+
+        let noClickCount = 0;
+        let baseYesSize = 15;
+
+        // Create floating hearts in background
+        function createFloatingHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.textContent = '۶ৎ';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (5 + Math.random() * 3) + 's';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Yes button click
+        yesBtn.addEventListener('click', () => {
+            mainContainer.style.display = 'none';
+            
+            // Show thank you modal first
+            showThankYouModal();
+        });
+
+        // No button click - makes it move around randomly on entire viewport
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            
+            // Show different alert messages based on click count
+                        const alerts = [
+                {
+                    message: "hell nah you sure?",
+                    image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZW8yeHhqcWQ0Ym1nb3NqMXlnZTQyNjMycHRvOXQ0ZWFzNjR1MWRzbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KsMT02cXvy0AN7j4Md/giphy.gif"
+                },
+                {
+                    message: "minsan lang to oh",
+                    image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZW8yeHhqcWQ0Ym1nb3NqMXlnZTQyNjMycHRvOXQ0ZWFzNjR1MWRzbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/edx4Z0hj7sqkaJOJSe/giphy.gif"
+                },
+                {
+                    message: "sige na please, ganda :c",
+                    image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHo2ZTNpdnR1bm53eXZnNDZ6eW9hejRnaGV2NHFpaTNubXNkazY0NyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9uwnYUDw342pq/giphy.gif"
+                },
+                {
+                    message: "ge ganyanan na ah",
+                    image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWt1bjRrYnF2eXF5eHo1N3J1ZzgwNm54ajNjanE0a3lnM2Y2MTN3byZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kqRb2OuD8OskE/giphy.gif"
+                },
+                {
+                    message: "ok, wala e nasakin huling halakhak AHAHAHAHAH",
+                    image: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejd4bG0yZzg2aHQyajdoemxla2M1czFqemp0aHh3ZjBwY3ZucTF6diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Iy1PWGPb7Hz3AI4e3T/giphy.webp"
+                }
+            ];
+            
+            // Show the appropriate message and image
+            const messageIndex = Math.min(noClickCount - 1, alerts.length - 1);
+            showCustomAlert(alerts[messageIndex].message, alerts[messageIndex].image);
+            
+            // If we've reached the last message, make the button disappear
+            if (noClickCount >= alerts.length) {
+                noBtn.style.display = 'none';
+            } else {
+                // Move the No button to a random position on the entire viewport
+                // Change button to fixed positioning
+                noBtn.style.position = 'fixed';
+                noBtn.style.zIndex = '1000';
+                
+                // Generate random position within viewport bounds
+                const maxX = window.innerWidth - noBtn.offsetWidth;
+                const maxY = window.innerHeight - noBtn.offsetHeight;
+                
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
+                
+                // Apply position
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+                noBtn.style.transform = 'none';
+                
+                // Wobble effect
+                noBtn.style.animation = 'none';
+                setTimeout(() => {
+                    noBtn.style.animation = 'wobble 0.5s ease-in-out';
+                }, 10);
+            }
+        });
+
+        // Thank you modal function
+        function showThankYouModal() {
+            // Create modal overlay
+            const thankYouOverlay = document.createElement('div');
+            thankYouOverlay.className = 'custom-alert-overlay';
+            thankYouOverlay.style.display = 'flex';
+            
+            // Create modal content
+            const thankYouModal = document.createElement('div');
+            thankYouModal.className = 'custom-alert-modal';
+            
+            // Create thank you heading
+            const thankYouHeading = document.createElement('h2');
+            thankYouHeading.style.cssText = 'color: #ff1493; font-size: 2rem; margin-bottom: 20px; font-weight: bold;';
+            thankYouHeading.textContent = 'Yippeeeeee';
+            
+            // Create thank you message
+            const thankYouText = document.createElement('p');
+            thankYouText.className = 'custom-alert-text';
+            thankYouText.textContent = 'thank you for clicking yes, sana di napilitan noh?';
+            thankYouText.style.marginBottom = '30px';
+            
+            // Create proceed button
+            const proceedButton = document.createElement('button');
+            proceedButton.className = 'custom-alert-button';
+            proceedButton.textContent = 'shall we procced my princess? ';
+            proceedButton.style.cssText = 'background: linear-gradient(135deg, #ff1493, #ff69b4); color: white; border: none; padding: 15px 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 25px; transition: all 0.3s ease;';
+            
+            proceedButton.onmouseover = () => {
+                proceedButton.style.transform = 'scale(1.08)';
+                proceedButton.style.boxShadow = '0 8px 20px rgba(255, 20, 147, 0.25)';
+            };
+            
+            proceedButton.onmouseout = () => {
+                proceedButton.style.transform = 'scale(1)';
+                proceedButton.style.boxShadow = 'none';
+            };
+            
+            proceedButton.onclick = () => {
+                thankYouOverlay.remove();
+                // Show success container with celebration effects
+                successContainer.classList.add('show');
+                
+                // Create all celebration effects
+                createHeartRain();
+                createConfetti();
+                createSparkles();
+                createLoveTrail();
+            };
+            
+            // Assemble modal
+            thankYouModal.appendChild(thankYouHeading);
+            thankYouModal.appendChild(thankYouText);
+            thankYouModal.appendChild(proceedButton);
+            thankYouOverlay.appendChild(thankYouModal);
+            
+            // Add to document
+            document.body.appendChild(thankYouOverlay);
+        }
+
+        // Custom alert modal function with image
+        function showCustomAlert(message, imageUrl) {
+            // Create modal overlay
+            const alertOverlay = document.createElement('div');
+            alertOverlay.className = 'custom-alert-overlay';
+            alertOverlay.style.display = 'flex';
+            
+            // Create alert modal
+            const alertModal = document.createElement('div');
+            alertModal.className = 'custom-alert-modal';
+            
+            // Create image
+            if (imageUrl) {
+                const alertImage = document.createElement('img');
+                alertImage.className = 'custom-alert-image';
+                alertImage.src = imageUrl;
+                alertImage.alt = 'Alert';
+                alertModal.appendChild(alertImage);
+            }
+            
+            // Create alert text
+            const alertText = document.createElement('p');
+            alertText.className = 'custom-alert-text';
+            alertText.textContent = message;
+            
+            // Create close button
+            const alertButton = document.createElement('button');
+            alertButton.className = 'custom-alert-button';
+            
+            // Set button text based on click count (1-4 = "No", 5 = "OK")
+            if (noClickCount >= 5) {
+                alertButton.textContent = 'OK';
+            } else {
+                alertButton.textContent = 'No';
+            }
+            
+            alertButton.onclick = () => {
+                alertOverlay.remove();
+            };
+            
+            // Assemble modal
+            alertModal.appendChild(alertText);
+            alertModal.appendChild(alertButton);
+            alertOverlay.appendChild(alertModal);
+            
+            // Close on overlay click
+            alertOverlay.onclick = (e) => {
+                if (e.target === alertOverlay) {
+                    alertOverlay.remove();
+                }
+            };
+            
+            // Add to document
+            document.body.appendChild(alertOverlay);
+        }
+
+        // Wobble animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes wobble {
+                0%, 100% { transform: rotate(0deg); }
+                25% { transform: rotate(-5deg); }
+                75% { transform: rotate(5deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create heart rain effect
+        function createHeartRain() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-rain');
+                    heart.textContent = '۶ৎ';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#ff1493', '#ff69b4', '#ffb6de', '#ffc0cb'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-20px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s linear forwards`;
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // Create sparkles effect
+        function createSparkles() {
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.textContent = '۶ৎ';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2000);
+            }, 200);
+        }
+
+        // Create love trail effect
+        function createLoveTrail() {
+            setInterval(() => {
+                const symbols = ['۶ৎ', '۶ৎ', '۶ৎ', '۶ৎ', '۶ৎ'];
+                const loveTrail = document.createElement('div');
+                loveTrail.classList.add('love-trail');
+                loveTrail.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                loveTrail.style.left = Math.random() * 100 + 'vw';
+                loveTrail.style.top = Math.random() * 50 + '%';
+                document.body.appendChild(loveTrail);
+                setTimeout(() => loveTrail.remove(), 2000);
+            }, 300);
+        }
+
+        // Initialize
+        createFloatingHearts();
+
+        // Envelope click handler
+        const envelopes = document.querySelectorAll('.envelope-single');
+        const messageModal = document.getElementById('messageModal');
+        const messageText = document.getElementById('messageText');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const closeMessageBtn = document.querySelector('.close-message-btn');
+
+        envelopes.forEach(envelope => {
+            envelope.addEventListener('click', () => {
+                const message = envelope.getAttribute('data-message');
+                messageText.textContent = message;
+                messageModal.classList.add('show');
+            });
+        });
+
+        // Close modal handlers
+        closeModalBtn.addEventListener('click', () => {
+            messageModal.classList.remove('show');
+        });
+
+        closeMessageBtn.addEventListener('click', () => {
+            messageModal.classList.remove('show');
+        });
+
+        // Close modal when clicking outside
+        messageModal.addEventListener('click', (e) => {
+            if (e.target === messageModal) {
+                messageModal.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
